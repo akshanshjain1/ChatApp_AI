@@ -1,11 +1,13 @@
 import os
-os.environ['COHERE_API_KEY'] = "gUhIrRwRSOa1ScBubR8Q8UGxNCrgMvPRkM1XLQaP"
-from langchain_community.llms import Cohere
-from langchain.memory import ConversationBufferMemory
-from langchain.chains import ConversationChain
-from langchain.agents import initialize_agent, AgentType, load_tools
 from flask import Flask, request, jsonify
 from pyngrok import ngrok
+from langchain_cohere import Cohere
+from langchain.memory import ConversationBufferMemory
+from langchain_community.agent_toolkits.load_tools import load_tools
+from langchain.agents import initialize_agent, AgentType
+
+# Set environment variables for Cohere API
+os.environ['COHERE_API_KEY'] = "gUhIrRwRSOa1ScBubR8Q8UGxNCrgMvPRkM1XLQaP"
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -15,8 +17,13 @@ memory = ConversationBufferMemory()
 llm = Cohere(temperature=0.7, max_tokens=500)
 tools = load_tools(["wikipedia", "llm-math"], llm=llm)
 
-conversation = ConversationChain(llm=llm, memory=memory)
-agent = initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, handle_parsing_errors=True)
+# Create LangChain agent
+agent = initialize_agent(
+    tools, 
+    llm, 
+    agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, 
+    handle_parsing_errors=True
+)
 
 # Expose public URL via ngrok
 public_url = ngrok.connect(5000)

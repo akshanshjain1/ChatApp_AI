@@ -1,11 +1,12 @@
 flask
 cohere
 langchain
+langchain-community
 pyngrok
-wikipedia-api
+wikipedia
 numexpr
 requests
 flask-cors
 python-dotenv
 gunicorn
-langchain-community
+langchain-cohere
