@@ -1,6 +1,6 @@
 import os
 os.environ['COHERE_API_KEY'] = "gUhIrRwRSOa1ScBubR8Q8UGxNCrgMvPRkM1XLQaP"
-from langchain.llms import Cohere
+from langchain_community.llms import Cohere
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationChain
 from langchain.agents import initialize_agent, AgentType, load_tools
