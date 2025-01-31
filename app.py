@@ -1,6 +1,5 @@
 import os
 from flask import Flask, request, jsonify
-from pyngrok import ngrok
 from langchain_community.llms import Cohere
 from langchain.memory import ConversationBufferMemory
 from langchain_community.agent_toolkits.load_tools import load_tools
@@ -25,13 +24,6 @@ agent = initialize_agent(
     handle_parsing_errors=True
 )
 
-# Expose public URL via ngrok
-ngrok_token = os.getenv("NGROK_AUTH_TOKEN")
-if ngrok_token:
-    ngrok.set_auth_token(ngrok_token)
-    public_url = ngrok.connect(5000)
-    print(f"Public URL: {public_url.public_url}")
-
 # Define API route
 @app.route('/process-prompt', methods=['POST'])
 def process_prompt():
@@ -50,4 +42,5 @@ def process_prompt():
 
 # Start Flask server
 if __name__ == "__main__":
-    app.run(port=5000)
+    port = int(os.environ.get("PORT", 5000))  # Use dynamic port assignment
+    app.run(host="0.0.0.0", port=port)
