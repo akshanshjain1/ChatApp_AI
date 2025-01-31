@@ -26,8 +26,11 @@ agent = initialize_agent(
 )
 
 # Expose public URL via ngrok
-public_url = ngrok.connect(5000)
-print("Public URL:", public_url.public_url)
+ngrok_token = os.getenv("NGROK_AUTH_TOKEN")
+if ngrok_token:
+    ngrok.set_auth_token(ngrok_token)
+    public_url = ngrok.connect(5000)
+    print(f"Public URL: {public_url.public_url}")
 
 # Define API route
 @app.route('/process-prompt', methods=['POST'])
