@@ -3,3 +3,4 @@ pyngrok
 cohere
 langchain
 wikipedia
+langchain_community
