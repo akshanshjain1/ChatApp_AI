@@ -1,6 +1,7 @@
 import os
 from flask import Flask, request, jsonify
-from langchain_community.llms import Cohere
+from langchain_cohere import Cohere
+
 from langchain.memory import ConversationBufferMemory
 from langchain_community.agent_toolkits.load_tools import load_tools
 from langchain.agents import initialize_agent, AgentType
